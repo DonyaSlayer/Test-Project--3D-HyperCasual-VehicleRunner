@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 989
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Scene
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -226,7 +226,7 @@ MonoBehaviour:
   - {fileID: 15}
   - {fileID: 16}
   m_Selected: 1
-  m_LastSelected: 2
+  m_LastSelected: 0
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -605,7 +605,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1920, y: 1080}
+  m_TargetSize: {x: 1080, y: 1920}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -614,16 +614,16 @@ MonoBehaviour:
   m_VSyncEnabled: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 03000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 07000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -960
-    m_HBaseRangeMax: 960
-    m_VBaseRangeMin: -540
-    m_VBaseRangeMax: 540
+    m_HBaseRangeMin: -540
+    m_HBaseRangeMax: 540
+    m_VBaseRangeMin: -960
+    m_VBaseRangeMax: 960
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -632,7 +632,7 @@ MonoBehaviour:
     m_HSlider: 0
     m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -643,7 +643,7 @@ MonoBehaviour:
       y: 21
       width: 1183
       height: 570
-    m_Scale: {x: 0.5277778, y: 0.5277778}
+    m_Scale: {x: 0.296875, y: 0.296875}
     m_Translation: {x: 591.5, y: 285}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -651,12 +651,12 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -1120.7368
-      y: -540
-      width: 2241.4736
-      height: 1080
+      x: -1992.421
+      y: -960
+      width: 3984.842
+      height: 1920
     m_MinimalGUI: 1
-  m_defaultScale: 0.5277778
+  m_defaultScale: 0.296875
   m_LastWindowPixelSize: {x: 1183, y: 591}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
@@ -709,7 +709,10 @@ MonoBehaviour:
       m_LastClickedID:
         m_Data: 0
       m_ExpandedIDs:
-      - m_Data: -1326
+      - m_Data: -43900
+      - m_Data: -37876
+      - m_Data: -20102
+      - m_Data: -1300
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -1330,9 +1333,9 @@ MonoBehaviour:
   m_AudioPlay: 0
   m_DebugDrawModesUseInteractiveLightBakingData: 0
   m_Position:
-    m_Target: {x: -0.5756343, y: 2.6668358, z: 1.5509441}
+    m_Target: {x: 3.9031513, y: 5.7608867, z: -0.3481203}
     speed: 2
-    m_Value: {x: -0.5756343, y: 2.6668358, z: 1.5509441}
+    m_Value: {x: 3.9031513, y: 5.7608867, z: -0.3481203}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -1378,9 +1381,9 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.022127153, y: -0.97552806, z: 0.18539946, w: 0.116431974}
+    m_Target: {x: -0.31527698, y: 0.40606692, z: -0.1515071, w: -0.84437263}
     speed: 2
-    m_Value: {x: -0.022126334, y: 0.975492, z: -0.1853926, w: -0.11642768}
+    m_Value: {x: -0.31527698, y: 0.40606695, z: -0.1515071, w: -0.8443727}
   m_Size:
     m_Target: 1.2910659
     speed: 2
@@ -1541,7 +1544,7 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Packages
+    - Assets/Scripts/DI
     m_Globs: []
     m_ProductIds: 
     m_AnyWithAssetOrigin: 0
@@ -1551,7 +1554,7 @@ MonoBehaviour:
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Packages
+  - Assets/Scripts/DI
   m_LastFoldersGridSize: -1
   m_LastProjectPath: D:\GameDev\GHreps\Test-Project--3D-HyperCasual-VehicleRunner\Test
     Task 3D HyperCasual VehicleRunner
@@ -1559,14 +1562,14 @@ MonoBehaviour:
     m_IsLocked: 1
   m_LastLocalAssetsSearchArea: 1
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
+    scrollPos: {x: 0, y: 2}
     m_SelectedIDs:
-    - m_Data: 2147483647
+    - m_Data: 49120
     m_LastClickedID:
-      m_Data: 2147483647
+      m_Data: 49120
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 48734
+    - m_Data: 48820
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1599,7 +1602,7 @@ MonoBehaviour:
       m_Data: 0
     m_ExpandedIDs:
     - m_Data: 0
-    - m_Data: 48734
+    - m_Data: 48820
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1626,9 +1629,10 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: []
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_SelectedInstanceIDs:
+    - m_Data: 48500
+    m_LastClickedInstanceID: 48500
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs:
     - m_Data: 63362
     - m_Data: 48898
