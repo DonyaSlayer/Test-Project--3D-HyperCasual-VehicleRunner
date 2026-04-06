@@ -4,6 +4,7 @@ public class Bullet : MonoBehaviour
 {
     [SerializeField] private float bulletSpeed;
     [SerializeField] private float bulletLifetime;
+    [SerializeField] private int bulletDmg;
     private float _timer;
     private TrailRenderer _trail;
     private ObjectPoolManager _poolManager;
@@ -31,6 +32,11 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
+        IDamageable target = other.GetComponent<IDamageable>();
+        if (target !=null)
+        {
+            target.TakeDamage(bulletDmg);
+        }
         _poolManager.ReturnToPool("Bullet", gameObject);
     }
 }

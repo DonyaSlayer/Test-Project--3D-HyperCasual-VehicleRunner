@@ -7,6 +7,8 @@ public class PlayerMovement : MonoBehaviour
     private GameStateController _gameStateController;
     private Rigidbody _rb;
     private bool _canMove = false;
+    private Vector3 _startPosition;
+    private Quaternion _startRotation;
 
     [Inject]
     public void Construct (GameStateController gameStateController)
@@ -17,13 +19,13 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         _rb = GetComponent<Rigidbody>();
+        _startPosition = transform.position;
+        _startRotation = transform.rotation;
     }
 
     private void Start()
     {
         _gameStateController.OnGameStateChanged += HandleStateChange;
-        //TEST
-        _gameStateController.ChangeState(GameState.Playing);
     }
 
     private void HandleStateChange(GameState newState)
@@ -33,12 +35,22 @@ public class PlayerMovement : MonoBehaviour
         {
             _rb.linearVelocity = Vector3.zero;
         }
+        if (newState == GameState.Menu)
+        {
+            ResetPlayer();
+        }
+    }
+    private void ResetPlayer()
+    {
+        _rb.linearVelocity = Vector3.zero;
+        _rb.angularVelocity = Vector3.zero;
+        transform.position = _startPosition;
+        transform.rotation = _startRotation;
     }
 
     private void FixedUpdate()
     {
         if (!_canMove) return;
-
         Vector3 movement = transform.forward * speed;
         _rb.linearVelocity = new Vector3(movement.x, _rb.linearVelocity.y, movement.z);
     }
