@@ -31,8 +31,11 @@ public class Enemy : MonoBehaviour, IDamageable
     private Transform _playerTarget;
     private IDamageable _playerDamageable;
     private ObjectPoolManager _poolManager;
+
+    //Attack variables
     private bool _useFirstAttack = true;
     private bool _isAtackOnCooldown = false;
+    private bool _isAlerting = false;
 
     //Pushing Settings
     private bool _isPushedBack = false;
@@ -44,7 +47,7 @@ public class Enemy : MonoBehaviour, IDamageable
 
     //Animations Hashing
     private readonly int _AnimIdle = Animator.StringToHash("Idle");
-    private readonly int _AnimRun = Animator.StringToHash("Run");
+    private readonly int _AnimRun = Animator.StringToHash("Running");
     private readonly int _AnimAttack1 = Animator.StringToHash("Attack1");
     private readonly int _AnimAttack2 = Animator.StringToHash("Attack2");
     private readonly int _AnimDeath = Animator.StringToHash("Death");
@@ -65,8 +68,10 @@ public class Enemy : MonoBehaviour, IDamageable
         _currentHp = _maxHP;
         _isPushedBack = false;
         _isAtackOnCooldown = false;
+        _isAlerting = false;
         _exclamationMark.SetActive(false);
-        ChangeState(EnemyState.Idle);    
+        _currentState = EnemyState.Idle;
+        _animator.Play(_AnimIdle);   
     }
 
     private void OnDisable()
@@ -96,6 +101,13 @@ public class Enemy : MonoBehaviour, IDamageable
 
     private void Update()
     {
+        HandlePushBack();
+        if(_currentState == EnemyState.Dying || _playerTarget == null) return;
+        if (_playerTarget.position.z - transform.position.z > 10f)
+        {
+            _poolManager.ReturnToPool("Enemy", gameObject);
+            return;
+        }
         float distanceToPlayer = Vector3.Distance(transform.position,_playerTarget.position);
         HandleCurrentState(distanceToPlayer);
     }
@@ -120,6 +132,7 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         if (distance <= _detectionRadius && _cts != null)
         {
+            _isAlerting = true;
             ShowExclamationAndSeekAsync(_cts.Token).Forget();
         }
     }
@@ -151,23 +164,25 @@ public class Enemy : MonoBehaviour, IDamageable
     {
         _currentState = EnemyState.Dying;
         _animator.CrossFade(_AnimDeath, 0.1f);
+        CancelTasks();
+        ReturnToPoolAsync().Forget();
     }
 
     //UniTask methods
 
     private async UniTaskVoid ShowExclamationAndSeekAsync(CancellationToken token)
     {
-        ChangeState(EnemyState.Seeking);
         _exclamationMark.SetActive(true);
         bool isCancelled = await UniTask.Delay(System.TimeSpan.FromSeconds(0.5f), cancellationToken: token).SuppressCancellationThrow();
         if (isCancelled) return;
         _exclamationMark.SetActive(false);
+        ChangeState(EnemyState.Seeking);
     }
     private async UniTaskVoid AttackRoutineAsync(CancellationToken token)
     {
         _isAtackOnCooldown = true;
-        if (_useFirstAttack) _animator.SetTrigger(_AnimAttack1);
-        else _animator.SetTrigger(_AnimAttack2);
+        if (_useFirstAttack) _animator.CrossFade(_AnimAttack1, 0.1f);
+        else _animator.CrossFade(_AnimAttack2, 0.1f);
         _useFirstAttack = !_useFirstAttack;
         if (_playerDamageable != null)
         {
@@ -185,9 +200,7 @@ public class Enemy : MonoBehaviour, IDamageable
             _poolManager.ReturnToPool("Enemy", gameObject);
         }
     }
-
     //Addictional methods
-
     private void ChangeState(EnemyState newState)
     {
         if (_currentState == EnemyState.Dying) return;
@@ -207,6 +220,30 @@ public class Enemy : MonoBehaviour, IDamageable
         {
             Quaternion lookRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+        }
+    }
+
+    private void HandlePushBack()
+    {
+        if(!_isPushedBack) return;
+        transform.Translate(_pushDirection * (_pushBackForce * Time.deltaTime), Space.World);
+        _pushBackForce = Mathf.Lerp(_pushBackForce, 0, Time.deltaTime * 5f);
+        if(_pushBackForce < 0.1f)
+        {
+            _isPushedBack = false;
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player") && _currentState != EnemyState.Dying)
+        {
+            Vector3 hitDirection = (transform.position - other.transform.position).normalized;
+            hitDirection.y = 0;
+            _pushDirection = hitDirection + other.transform.forward * 0.5f;
+            _isPushedBack = true;
+            _pushBackForce = 15f;
+            TakeDamage(_carCollDamageTaken);
         }
     }
 }

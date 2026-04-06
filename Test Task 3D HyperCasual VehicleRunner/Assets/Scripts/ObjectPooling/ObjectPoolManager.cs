@@ -34,6 +34,7 @@ public class ObjectPoolManager : MonoBehaviour
     public void ReturnToPool(string tag, GameObject objectToReturn)
     {
         if (!poolDictionary.ContainsKey(tag)) return;
+        if(!objectToReturn.activeSelf) return;
         objectToReturn.SetActive(false);
         poolDictionary[tag].Enqueue(objectToReturn);
     }

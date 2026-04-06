@@ -32,11 +32,18 @@ public class Bullet : MonoBehaviour
     }
     private void OnTriggerEnter(Collider other)
     {
-        IDamageable target = other.GetComponent<IDamageable>();
-        if (target !=null)
+        if (other.CompareTag("Enemy"))
         {
-            target.TakeDamage(bulletDmg);
+            IDamageable target = other.GetComponent<IDamageable>();
+            if (target != null)
+            {
+                target.TakeDamage(bulletDmg);
+            }
+            _poolManager.ReturnToPool("Bullet", gameObject);
         }
-        _poolManager.ReturnToPool("Bullet", gameObject);
+        else
+        {
+            return;
+        }
     }
 }

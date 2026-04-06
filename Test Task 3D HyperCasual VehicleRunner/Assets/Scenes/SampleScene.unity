@@ -5930,6 +5930,7 @@ GameObject:
   - component: {fileID: 601793814}
   - component: {fileID: 601793813}
   - component: {fileID: 601793815}
+  - component: {fileID: 601793816}
   m_Layer: 0
   m_Name: PlayerCar
   m_TagString: Player
@@ -5972,7 +5973,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -6003,7 +6004,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 112
+  m_Constraints: 116
   m_CollisionDetection: 0
 --- !u!114 &601793815
 MonoBehaviour:
@@ -6018,6 +6019,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   speed: 10
+--- !u!114 &601793816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 601793811}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c8b0b81630c94b949a20654f6e68eaa1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
+  _maxHp: 500
 --- !u!1 &609747567
 GameObject:
   m_ObjectHideFlags: 0
@@ -6097,6 +6111,79 @@ Transform:
   - {fileID: 458856745}
   m_Father: {fileID: 601793812}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &747036236
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 747036238}
+  - component: {fileID: 747036237}
+  m_Layer: 0
+  m_Name: LevelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &747036237
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747036236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4bd34d5634e09a42bb94bfa98a79b21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
+  _enemyPoolTag: Enemy
+  _difficultyCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.40776864
+      outSlope: 0.40776864
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 35.00482
+      value: 14.273869
+      inSlope: 0.40776864
+      outSlope: 0.40776864
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  _playerTransform: {fileID: 601793812}
+  _enemyPrefab: {fileID: 4314184623924865423, guid: c1c1a77d3e5caf94e935f631e431be6b, type: 3}
+  _spawnWidth: 15
+  _spawnLengthOffset: 15
+--- !u!4 &747036238
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 747036236}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.98465, y: 0, z: 18.92749}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &752596332
 GameObject:
   m_ObjectHideFlags: 0
@@ -6133,7 +6220,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -400, y: 50}
+  m_AnchoredPosition: {x: 0, y: 50}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &752596334
@@ -6514,7 +6601,7 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
@@ -7154,6 +7241,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ChunkSpawner
   _startFinishChunkPrefab: {fileID: 8756368716162761450, guid: e3de42dbd5b9b824596dc236e35be658, type: 3}
   _lvlLength: 20
+  _enemySpawner: {fileID: 747036237}
   _chunkPrefabs:
   - {fileID: 5954197550876579526, guid: 39fea6872cb1f93468861f0d54b468d2, type: 3}
   - {fileID: 2265531350794642352, guid: de7218aa581a85342848f1a006748d4a, type: 3}
@@ -7516,6 +7604,7 @@ SceneRoots:
   - {fileID: 2118475727}
   - {fileID: 1398430436}
   - {fileID: 1962981482}
+  - {fileID: 747036238}
   - {fileID: 1703696274}
   - {fileID: 902512061}
   - {fileID: 601793812}

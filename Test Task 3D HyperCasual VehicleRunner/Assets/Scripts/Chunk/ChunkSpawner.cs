@@ -6,6 +6,7 @@ public class ChunkSpawner : MonoBehaviour
     [Header ("Level Settings")]
     [SerializeField] private GameObject _startFinishChunkPrefab;
     [SerializeField] private int _lvlLength;
+    [SerializeField] private EnemySpawner _enemySpawner;
 
     [Header("Spawn Settings")]
     [SerializeField] private GameObject[] _chunkPrefabs;
@@ -46,6 +47,7 @@ public class ChunkSpawner : MonoBehaviour
 
     private void Update()
     {
+        if (_activeChunks.Count == 0) return;
         if (_playerTransform.position.z - _chunkLength > _activeChunks[0].transform.position.z)
         {
             RecycleChunk();
@@ -72,6 +74,10 @@ public class ChunkSpawner : MonoBehaviour
         GameObject newChunk = _inactiveChunks[randomIndex].Dequeue();
         newChunk.SetActive(true);
         newChunk.transform.position = new Vector3(0, 0, _spawnZ);
+        if(_enemySpawner != null)
+        {
+            _enemySpawner.SpawnEnemiesOnChunk(newChunk.transform.position, _spawnedChunksCount);
+        }
         _activeChunks.Add(newChunk);
         _spawnZ += _chunkLength;
         _spawnedChunksCount++;

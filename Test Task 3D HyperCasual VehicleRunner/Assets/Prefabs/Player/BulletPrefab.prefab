@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7717592176979492040}
   - component: {fileID: -8016394239846122585}
   - component: {fileID: 3622998901872459349}
+  - component: {fileID: 2189222029174596372}
   m_Layer: 0
   m_Name: BulletPrefab
   m_TagString: Untagged
@@ -48,6 +49,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Bullet
   bulletSpeed: 50
   bulletLifetime: 2
+  bulletDmg: 10
 --- !u!96 &3622998901872459349
 TrailRenderer:
   serializedVersion: 4
@@ -167,6 +169,29 @@ TrailRenderer:
   m_Autodestruct: 0
   m_Emitting: 1
   m_ApplyActiveColorSpace: 1
+--- !u!136 &2189222029174596372
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 77916953991961157}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.057299837
+  m_Height: 0.32484895
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: 0.13757554}
 --- !u!1 &2416464470141472295
 GameObject:
   m_ObjectHideFlags: 0
