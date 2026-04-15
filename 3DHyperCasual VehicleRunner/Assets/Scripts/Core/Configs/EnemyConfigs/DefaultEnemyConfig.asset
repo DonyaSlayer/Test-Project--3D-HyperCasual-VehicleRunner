@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08685f9e109b7ef4281dce0dcd4dba00, type: 3}
+  m_Name: DefaultEnemyConfig
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyConfig
+  MaxHP: 20
+  AttackDamage: 10
+  CarCollDamageTaken: 5
+  MoveSpeed: 7.5
+  DetectionRadius: 50
+  AttackRadius: 5
+  AttackCooldown: 1.5
+  MinCoinDrop: 5
+  MaxCoinDrop: 11

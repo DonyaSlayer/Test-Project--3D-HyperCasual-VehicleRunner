@@ -11160,6 +11160,9 @@ MonoBehaviour:
   - {fileID: 512980121770378217}
   - {fileID: 421438795980060740}
   - {fileID: 9051764735096803026}
+  _wheelsTrails:
+  - {fileID: 2227732805865156598}
+  - {fileID: 3778312606082111262}
 --- !u!114 &2425299624806595502
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -11172,7 +11175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b0b81630c94b949a20654f6e68eaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  _maxHp: 50
+  _maxHp: 100
   _damageFeedback: {fileID: 1349445373151486750}
   _impulseSource: {fileID: 737808016293070256}
   _healthBar: {fileID: 7741750405579481756}
