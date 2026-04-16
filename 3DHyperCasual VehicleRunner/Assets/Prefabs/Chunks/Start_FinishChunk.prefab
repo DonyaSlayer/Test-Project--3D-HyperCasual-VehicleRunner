@@ -5084,7 +5084,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Barier
   _barierPivot: {fileID: 7583593138537152117}
   _openAngle: -90
-  _openSpeed: 10
+  _openSpeed: 1.5
   _rotationAxis: {x: 1, y: 0, z: 0}
 --- !u!1 &2988198825409366906
 GameObject:
@@ -6962,7 +6962,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Barier
   _barierPivot: {fileID: 6507878679441424478}
   _openAngle: 90
-  _openSpeed: 10
+  _openSpeed: 1.5
   _rotationAxis: {x: 1, y: 0, z: 0}
 --- !u!1 &4074296152556334621
 GameObject:

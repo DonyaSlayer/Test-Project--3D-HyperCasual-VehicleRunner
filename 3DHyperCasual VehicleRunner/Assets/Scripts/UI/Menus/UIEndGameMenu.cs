@@ -39,8 +39,7 @@ public class UIEndGameMenu : MonoBehaviour
         _homeButton.onClick.AddListener(OnHomeClicked);
         _restartButton.onClick.AddListener(OnRestartClicked);
         _canvasGroup.alpha = 0f;
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
+        SetInteractable(false);
     }
 
     private void HandleStateChange(GameState state)
@@ -51,14 +50,12 @@ public class UIEndGameMenu : MonoBehaviour
             SetupVisual(state);
             _canvasGroup.DOFade(1f, _fadeDuration).SetDelay(1.5f).OnComplete(() =>
             {
-                _canvasGroup.interactable = true;
-                _canvasGroup.blocksRaycasts = true;
+                SetInteractable(true);
             });
         }
         else
         {
-            _canvasGroup.interactable = false;
-            _canvasGroup.blocksRaycasts = false;
+            SetInteractable(false);
             _canvasGroup.DOFade(0f, _fadeDuration);
         }
     }
@@ -89,8 +86,15 @@ public class UIEndGameMenu : MonoBehaviour
         }
     }
 
+    private void SetInteractable(bool state)
+    {
+        _canvasGroup.interactable = state;
+        _canvasGroup.blocksRaycasts = state;
+    }
+
     private void OnDestroy()
     {
+        _canvasGroup?.DOKill();
         if (_gameStateController != null) _gameStateController.OnGameStateChanged -= HandleStateChange;
     }
 }

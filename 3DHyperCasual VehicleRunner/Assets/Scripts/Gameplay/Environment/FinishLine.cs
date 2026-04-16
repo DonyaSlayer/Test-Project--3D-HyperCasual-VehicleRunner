@@ -17,9 +17,8 @@ public class FinishLine : MonoBehaviour
     }
 
     private void OnTriggerEnter(Collider other)
-    {
-        Debug.Log($"Smth touched the finish collider: {other.gameObject.name}, with tag: {other.tag}");
-        if (other.CompareTag("Player") && _gameStateController.CurrentState == GameState.Playing)
+    { 
+        if (other.CompareTag(GameConstants.Tags.Player) && _gameStateController.CurrentState == GameState.Playing)
         {
             _gameStateController.ChangeState(GameState.Win);
             Debug.Log("Car is on finish line!");

@@ -40,9 +40,9 @@ public class UIMainMenu : MonoBehaviour
         _exitButton.onClick.AddListener(() => Application.Quit());
         _recordsButton.onClick.AddListener(OpenRecordsPanel);
         _backButton.onClick.AddListener(CloseRecordsPanel);
-        if (PlayerPrefs.GetInt("AutoStartNextGame", 0) == 1)
+        if (PlayerPrefs.GetInt(GameConstants.Prefs.AutoStart, 0) == 1)
         {
-            PlayerPrefs.SetInt("AutoStartNextGame", 0);
+            PlayerPrefs.SetInt(GameConstants.Prefs.AutoStart, 0);
             OnStartClicked();
             return;
         }
@@ -51,8 +51,8 @@ public class UIMainMenu : MonoBehaviour
 
     private void UpdateRecordsUI()
     {
-        int maxDist = PlayerPrefs.GetInt("MaxDistance", 0);
-        int maxCoins = PlayerPrefs.GetInt("MaxRunCoins", 0);
+        int maxDist = PlayerPrefs.GetInt(GameConstants.Prefs.MaxDistance, 0);
+        int maxCoins = PlayerPrefs.GetInt(GameConstants.Prefs.MaxRunCoins, 0);
         _maxDistText.text = $"Max distance: {maxDist}m";
         _maxCoinsText.text = $"Max coins for run: {maxCoins}  <sprite=0>";
     }
@@ -60,39 +60,39 @@ public class UIMainMenu : MonoBehaviour
     private void OpenRecordsPanel()
     {
         UpdateRecordsUI();
-        _mainMenuCG.interactable = false;
-        _mainMenuCG.blocksRaycasts = false;
+        SetCGInteractable(_mainMenuCG, false);
+        _mainMenuCG.DOKill();
+        _recordsCG.DOKill();
         _mainMenuCG.DOFade(0f, _panelSwitchSpeed);
         _recordsCG.DOFade(1f, _panelSwitchSpeed).OnComplete(() =>
         {
-            _recordsCG.interactable = true;
-            _recordsCG.blocksRaycasts = true;
+            SetCGInteractable(_recordsCG, true);
         });
     }
 
     private void CloseRecordsPanel()
     {
-        _recordsCG.interactable = false;
-        _recordsCG.blocksRaycasts = false;
+        SetCGInteractable(_recordsCG, false);
+        _mainMenuCG.DOKill();
+        _recordsCG.DOKill();
         _recordsCG.DOFade(0f, _panelSwitchSpeed);
         _mainMenuCG.DOFade(1f, _panelSwitchSpeed).OnComplete(() =>
         {
-            _mainMenuCG.interactable = true;
-            _mainMenuCG.blocksRaycasts = true;
+            SetCGInteractable(_mainMenuCG, true);
         });
     }
 
     private void ResetToMainMenu()
     {
         _mainMenuCG.alpha = 1f;
-        _mainMenuCG.interactable = true;
-        _mainMenuCG.blocksRaycasts = true;
+        SetCGInteractable( _mainMenuCG, true);
+
         _recordsCG.alpha = 0f;
-        _recordsCG.interactable = false;
-        _recordsCG.blocksRaycasts = false;
+        SetCGInteractable (_recordsCG, false);
+
         _globalCanvasGroup.alpha = 1f;
-        _globalCanvasGroup.interactable = true;
-        _globalCanvasGroup.blocksRaycasts= true;
+        SetCGInteractable(_globalCanvasGroup, true);
+
         _startButton.interactable= true;
     }
     private void HandleStateChange(GameState state)
@@ -103,14 +103,12 @@ public class UIMainMenu : MonoBehaviour
             ResetToMainMenu();
             _globalCanvasGroup.DOFade(1f,_fadeDuration).OnComplete(() =>
             {
-                _globalCanvasGroup.interactable = true;
-                _globalCanvasGroup.blocksRaycasts = true;
+                SetCGInteractable(_globalCanvasGroup, true);
             });
         }
         else 
         {
-            _globalCanvasGroup.interactable = false;
-            _globalCanvasGroup.blocksRaycasts = false;
+            SetCGInteractable(_globalCanvasGroup, false);
             _globalCanvasGroup.DOFade(0f, _fadeDuration);
         }
     }
@@ -121,8 +119,17 @@ public class UIMainMenu : MonoBehaviour
         _cameraController.StartGameSequence();
     }
 
+    private void SetCGInteractable(CanvasGroup cg, bool state)
+    {
+        cg.interactable = state;
+        cg.blocksRaycasts = state;
+    }
+
     private void OnDestroy()
     {
+        _mainMenuCG?.DOKill();
+        _recordsCG?.DOKill();
+        _globalCanvasGroup?.DOKill();
         if ( _gameStateController != null ) 
             _gameStateController.OnGameStateChanged -= HandleStateChange;
     }

@@ -28,21 +28,20 @@ public class UIPauseMenu : MonoBehaviour
         _restartButton.onClick.AddListener(RestartGame);
         _homeButton.onClick.AddListener(GoHome);
         _canvasGroup.alpha = 0f;
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
+        SetInteractable(false);
     }
     public void PauseGame()
     {
         if (_gameStateController.CurrentState != GameState.Playing) return;
         Time.timeScale = 0f;
-        _canvasGroup.interactable = true;
-        _canvasGroup.blocksRaycasts = true;
+        SetInteractable(true);
+        _canvasGroup.DOKill();
         _canvasGroup.DOFade(1f, _fadeDuration).SetUpdate(true);
     }
     private void ResumeGame()
     {
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
+        SetInteractable(false);
+        _canvasGroup.DOKill();
         _canvasGroup.DOFade(0f, _fadeDuration).SetUpdate(true).OnComplete(() =>
         {
             Time.timeScale = 1f;
@@ -50,19 +49,29 @@ public class UIPauseMenu : MonoBehaviour
     }
     private void RestartGame() 
     {
-        Time.timeScale = 1f;
+        ResetTimeAndHide();
         _gameStateController.ChangeState(GameState.Menu);
         _cameraController.StartGameSequence();
-        _canvasGroup.alpha = 0f;
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
     }
     private void GoHome()
     {
-        Time.timeScale = 1f;
+        ResetTimeAndHide();
         _gameStateController.ChangeState(GameState.Menu);
+    }
+    private void ResetTimeAndHide()
+    {
+        Time.timeScale = 1f;
+        _canvasGroup.DOKill();
         _canvasGroup.alpha = 0f;
-        _canvasGroup.interactable = false;
-        _canvasGroup.blocksRaycasts = false;
+        SetInteractable(false);
+    }
+    private void SetInteractable(bool state)
+    {
+        _canvasGroup.interactable = state;
+        _canvasGroup.blocksRaycasts = state;
+    }
+    private void OnDestroy()
+    {
+        _canvasGroup?.DOKill();
     }
 }

@@ -29,7 +29,7 @@ public class UIFloatingText : MonoBehaviour
         {
             if (_poolManager != null)
             {
-                _poolManager.ReturnToPool("DamageText", gameObject);
+                _poolManager.ReturnToPool(GameConstants.Pools.DamageText, gameObject);
             }
         });
     }
@@ -41,16 +41,21 @@ public class UIFloatingText : MonoBehaviour
         c.a = 1f;
         _tMP.color = c;
         _tMP.text = $"+{coinAmount}  <sprite=0>";
-        transform.DOComplete();
-        _tMP.DOComplete();
+        transform.DOKill();
+        _tMP.DOKill();
         Vector3 targetPos = transform.position + new Vector3(0f, _floatHeight, 0);
         transform.DOMove(targetPos, _floatDuration).SetEase(Ease.OutBack);
         _tMP.DOFade(0f, _floatDuration).SetEase(Ease.InExpo).OnComplete(() =>
         {
             if (_poolManager != null)
             {
-                _poolManager.ReturnToPool("CoinText", gameObject);
+                _poolManager.ReturnToPool(GameConstants.Pools.CoinText, gameObject);
             }
         });
+    }
+    private void OnDisable()
+    {
+        transform.DOKill();
+        _tMP?.DOKill();
     }
 }

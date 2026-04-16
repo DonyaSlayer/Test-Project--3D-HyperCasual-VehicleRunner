@@ -71,16 +71,17 @@ public class UILevelProgress : MonoBehaviour
         if(_playerTransform == null) return;
         float distanceDriven = Mathf.Max(0, _playerTransform.position.z - _startZ);
         int currentDistInt = Mathf.FloorToInt(distanceDriven);
-        int maxDist = PlayerPrefs.GetInt("MaxDistance", 0);
+        int maxDist = PlayerPrefs.GetInt(GameConstants.Prefs.MaxDistance, 0);
         if(currentDistInt > maxDist)
         {
-            PlayerPrefs.SetInt("MaxDistance", currentDistInt);
+            PlayerPrefs.SetInt(GameConstants.Prefs.MaxDistance, currentDistInt);
             PlayerPrefs.Save();
         }
     }
 
     private void OnDestroy()
     {
+        _canvasGroup?.DOKill();
         if(_gameStateController != null) _gameStateController.OnGameStateChanged -= HandleStateChange;  
     }
 }

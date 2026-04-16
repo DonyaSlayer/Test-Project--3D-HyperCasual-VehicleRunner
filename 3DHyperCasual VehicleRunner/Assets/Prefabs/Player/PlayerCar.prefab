@@ -227,8 +227,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d06dc382fc620254d8beb4e44ce88528, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Weapon
-  fireRate: 0.5
-  bulletPrefab: {fileID: 77916953991961157, guid: 4062725206592cd4aa16f56b9e32a0eb, type: 3}
+  _weaponConfig: {fileID: 11400000, guid: a437dd88d05c59c47bd2978fb54e2b40, type: 2}
+  _bulletPrefab: {fileID: 77916953991961157, guid: 4062725206592cd4aa16f56b9e32a0eb, type: 3}
   _turretMesh: {fileID: 2493982357940879904}
   _shootFlash: {fileID: 1130496358120280630}
   _recoilStrength: 0.2
@@ -1054,7 +1054,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a3e5839599d5d04f8f1265d22e8ce6e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TurretController
-  _rotationSpeed: 15
+  _weaponConfig: {fileID: 11400000, guid: a437dd88d05c59c47bd2978fb54e2b40, type: 2}
 --- !u!1 &7157842527619121319
 GameObject:
   m_ObjectHideFlags: 0
@@ -11154,7 +11154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bbe64b82afbe9c94e81201d0804d9b2e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
-  speed: 10
+  _config: {fileID: 11400000, guid: de63e9c67aa55b942886bb3a88831ff5, type: 2}
   _wheelsAnimators:
   - {fileID: 5833745478480948483}
   - {fileID: 512980121770378217}
@@ -11175,7 +11175,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8b0b81630c94b949a20654f6e68eaa1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerHealth
-  _maxHp: 100
+  _config: {fileID: 0}
   _damageFeedback: {fileID: 1349445373151486750}
   _impulseSource: {fileID: 737808016293070256}
   _healthBar: {fileID: 7741750405579481756}

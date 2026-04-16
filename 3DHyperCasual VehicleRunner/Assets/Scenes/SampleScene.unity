@@ -753,11 +753,11 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.1
-  far clip plane: 5000
-  field of view: 40
+  near clip plane: 0.3
+  far clip plane: 1000
+  field of view: 60.000004
   orthographic: 0
-  orthographic size: 10
+  orthographic size: 5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -781,8 +781,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.17390196, y: 0.5877353, z: -0.13117449, w: 0.7791782}
-  m_LocalPosition: {x: -7, y: 4.66, z: 8}
+  m_LocalRotation: {x: 0.31622785, y: -0.000000028272977, z: 0.000000009424327, w: 0.9486833}
+  m_LocalPosition: {x: 0, y: 15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1605,7 +1605,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f4bd34d5634e09a42bb94bfa98a79b21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemySpawner
-  _enemyPoolTag: Enemy
   _difficultyCurve:
     serializedVersion: 2
     m_Curve:
@@ -5483,14 +5482,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1617782925068463085, guid: 3f7226781cc771444a7df51c47c218ec, type: 3}
-      propertyPath: _bulletPrefab
-      value: 
-      objectReference: {fileID: 77916953991961157, guid: 4062725206592cd4aa16f56b9e32a0eb, type: 3}
-    - target: {fileID: 1617782925068463085, guid: 3f7226781cc771444a7df51c47c218ec, type: 3}
-      propertyPath: _weaponConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: a437dd88d05c59c47bd2978fb54e2b40, type: 2}
     - target: {fileID: 5411776482202792150, guid: 3f7226781cc771444a7df51c47c218ec, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -5531,10 +5522,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6608407289668411088, guid: 3f7226781cc771444a7df51c47c218ec, type: 3}
-      propertyPath: _weaponConfig
-      value: 
-      objectReference: {fileID: 11400000, guid: a437dd88d05c59c47bd2978fb54e2b40, type: 2}
     - target: {fileID: 8506396022731902356, guid: 3f7226781cc771444a7df51c47c218ec, type: 3}
       propertyPath: m_Name
       value: PlayerCar

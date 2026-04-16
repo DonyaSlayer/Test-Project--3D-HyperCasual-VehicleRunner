@@ -121,18 +121,23 @@ public class ChunkSpawner : MonoBehaviour
     {
         GameObject oldChunk = _activeChunks[0];
         _activeChunks.RemoveAt(0);
-        oldChunk.SetActive(false);
-        if(_chunkIdMap.TryGetValue(oldChunk, out int chunkTypeIndex))
-        {
-            _inactiveChunks[chunkTypeIndex].Enqueue(oldChunk);
-        }
-        else
-        {
-            Destroy(oldChunk);
-        }
+       ReturnChunkToPool(oldChunk);
         if (!_isLvlFinished)
         {
             SpawnRandomChunk();
+        }
+    }
+
+    private void ReturnChunkToPool(GameObject chunk)
+    {
+        chunk.SetActive(false);
+        if (_chunkIdMap.TryGetValue(chunk, out int chunkTypeIndex))
+        {
+            _inactiveChunks[chunkTypeIndex].Enqueue(chunk);
+        }
+        else
+        {
+            Destroy(chunk);
         }
     }
 
@@ -147,15 +152,7 @@ public class ChunkSpawner : MonoBehaviour
     {
         foreach (GameObject chunk in _activeChunks)
         {
-            chunk.SetActive(false);
-            if(_chunkIdMap.TryGetValue(chunk, out int typeIndex))
-            {
-                _inactiveChunks[typeIndex].Enqueue(chunk);
-            }
-            else
-            {
-                Destroy(chunk);
-            }
+            ReturnChunkToPool(chunk);
         }
         _activeChunks.Clear();
         _spawnZ = 0;

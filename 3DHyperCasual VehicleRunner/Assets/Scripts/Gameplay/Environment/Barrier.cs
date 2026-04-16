@@ -1,16 +1,18 @@
+using DG.Tweening;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Rendering;
 
 public class Barrier : MonoBehaviour
 {
-    [Header("BarierSettings")]
+    [Header("Barier Settings")]
     [SerializeField] private Transform _barierPivot;
     [SerializeField] private float _openAngle;
     [SerializeField] private float _openSpeed;
-    [SerializeField] private Vector3 _rotationAxis = new Vector3(1,0, 0);
+    [SerializeField] private Vector3 _rotationAxis = new Vector3(1, 0, 0);
+
     private Quaternion _closedRotation;
     private Quaternion _openRotation;
-    private bool _isOpen = false;
 
     private void Start()
     {
@@ -18,25 +20,37 @@ public class Barrier : MonoBehaviour
         _openRotation = _closedRotation * Quaternion.Euler(_rotationAxis * _openAngle);
     }
 
-    private void Update()
-    {
-        Quaternion targetRotation = _isOpen? _openRotation : _closedRotation;
-        _barierPivot.localRotation = Quaternion.Slerp(_barierPivot.localRotation, targetRotation, Time.deltaTime * _openSpeed);
-    }
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(GameConstants.Tags.Player))
         {
-            _isOpen = true;
+            _barierPivot.DOKill();
+            _barierPivot.DOLocalRotateQuaternion(_openRotation, _openSpeed).SetEase(Ease.OutBack);
         }
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag(GameConstants.Tags.Player))
         {
-            _isOpen = false;
+            _barierPivot.DOKill();
+            _barierPivot.DOLocalRotateQuaternion(_closedRotation, _openSpeed).SetEase(Ease.InOutQuad);
+        }
+    }
+
+    private void OnDisable()
+    {
+        if(_barierPivot != null)
+        {
+            _barierPivot.DOKill();
+        }
+    }
+    private void OnDestroy()
+    { 
+        if (_barierPivot != null)
+        {
+            _barierPivot.DOKill();
         }
     }
 }

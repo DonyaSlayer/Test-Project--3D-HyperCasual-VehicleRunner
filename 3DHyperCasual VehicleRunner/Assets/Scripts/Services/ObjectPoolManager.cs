@@ -21,7 +21,7 @@ public class ObjectPoolManager : MonoBehaviour
     {
         if(!poolDictionary.ContainsKey(tag) || poolDictionary[tag].Count == 0)
         {
-            Debug.LogWarning($"Pull with {tag} is empty or null");
+            Debug.LogWarning($"Pool with {tag} is empty or null");
             return null;
         }
         GameObject objectToSpawn = poolDictionary[tag].Dequeue();

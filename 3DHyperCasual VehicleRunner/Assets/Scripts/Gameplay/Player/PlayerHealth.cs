@@ -4,7 +4,10 @@ using Zenject;
 
 public class PlayerHealth : MonoBehaviour, IDamageable
 {
-    [SerializeField] private int _maxHp;
+    [Header("Config")]
+    [SerializeField] private PlayerConfig _config;
+
+    [Header("References")]
     [SerializeField] private DamageFeedback _damageFeedback;
     [SerializeField] private CinemachineImpulseSource _impulseSource;
 
@@ -31,23 +34,16 @@ public class PlayerHealth : MonoBehaviour, IDamageable
 
     private void Start()
     {
-        _currentHP = _maxHp;
         _gameStateController.OnGameStateChanged += HandleStateChange;
-        if (_healthBar != null)
-        {
-            _healthBar.Setup(_maxHp);
-            bool isPlaying = _gameStateController.CurrentState == GameState.Playing;
-            _healthBar.DoVisible(isPlaying);
-        }
+        ResetHealth();
     }
 
     private void HandleStateChange(GameState state)
     {
         if (state == GameState.Menu)
         {
-            _currentHP = _maxHp;
+            ResetHealth();
             _isDead = false;
-            if(_healthBar != null) _healthBar.UpdateHealth(_currentHP);
             gameObject.SetActive(true);
             if (_spawnedDeadCar != null)
             {
@@ -60,7 +56,15 @@ public class PlayerHealth : MonoBehaviour, IDamageable
             _healthBar.DoVisible(state == GameState.Playing);
         }
     }
-
+    private void ResetHealth()
+    {
+        _currentHP = _config != null ? _config.MaxHP : 100;
+        if (_healthBar != null)
+        {
+            _healthBar.Setup(_currentHP);
+            _healthBar.UpdateHealth(_currentHP);
+        }
+    }
     public void TakeDamage(int amount)
     {
         if (_gameStateController.CurrentState != GameState.Playing || _isDead) return;
@@ -75,7 +79,6 @@ public class PlayerHealth : MonoBehaviour, IDamageable
         {
             _impulseSource.GenerateImpulse();
         }
-        Debug.Log($"Car got damaged by {amount}. {_currentHP} HP Left");
         if (_currentHP <= 0) 
         {
             _isDead = true;
@@ -86,7 +89,7 @@ public class PlayerHealth : MonoBehaviour, IDamageable
     private void SpawnDamageText(int amount)
     {
         if(_poolManager == null || _textSpawnPoint == null) return;
-        GameObject textObj = _poolManager.SpawnFromPool("DamageText", _textSpawnPoint.position, Quaternion.identity);
+        GameObject textObj = _poolManager.SpawnFromPool(GameConstants.Pools.DamageText, _textSpawnPoint.position, Quaternion.identity);
         if (textObj != null)
         {
             UIFloatingText floatingText = textObj.GetComponent<UIFloatingText>();

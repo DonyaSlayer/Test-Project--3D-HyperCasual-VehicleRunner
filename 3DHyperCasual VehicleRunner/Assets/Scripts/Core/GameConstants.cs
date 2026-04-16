@@ -14,4 +14,12 @@ public static class GameConstants
         public const string DamageText = "DamageText";
         public const string CoinText = "CoinText";
     }
+
+    public static class Prefs
+    {
+        public const string MaxDistance = "MaxDistance";
+        public const string MaxRunCoins = "MaxRunCoins";
+        public const string AutoStart = "AutoStartNextGame";
+        public const string TotalCoins = "TotalCoins";
+    }
 }

@@ -2,6 +2,7 @@ using UnityEngine;
 using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using Cysharp.Threading.Tasks.CompilerServices;
+using System.Threading;
 public class DamageFeedback : MonoBehaviour
 {
     [Header("Flash Settings")]
@@ -16,6 +17,7 @@ public class DamageFeedback : MonoBehaviour
     [SerializeField] private float _shakeStrength;
     private Material[][] _originalMaterials;
     private bool _isFlashing = false;
+    private CancellationTokenSource _cts;
 
     private void Awake()
     {
@@ -25,20 +27,37 @@ public class DamageFeedback : MonoBehaviour
             _originalMaterials[i] = _renderers[i].sharedMaterials;
         }
     }
-
+    private void OnEnable()
+    {
+        _cts = new CancellationTokenSource();
+    }
+    private void OnDisable()
+    {
+        if (_cts != null)
+        {
+            _cts.Cancel();
+            _cts.Dispose();
+            _cts = null;
+        }
+        _meshTransform?.DOKill();
+        if(_isFlashing)
+        {
+            RestoreOriginalMaterials();
+        }
+    }
     public void PlayFeedback()
     {
-        if (!_isFlashing)
+        if (!_isFlashing && _cts != null)
         {
-            FlashRoutineAsync().Forget();
+            FlashRoutineAsync(_cts.Token).Forget();
         }
         if (_useShake && _meshTransform != null)
         {
-            _meshTransform.DOComplete();
+            _meshTransform.DOKill();
             _meshTransform.DOShakePosition(_shakeDuration, _shakeStrength, vibrato: 10, randomness: 90).SetRelative(true);
         }
     }
-    private async UniTaskVoid FlashRoutineAsync()
+    private async UniTaskVoid FlashRoutineAsync(CancellationToken token)
     {
         _isFlashing = true;
         for(int i = 0; i < _renderers.Length;i++)
@@ -47,10 +66,17 @@ public class DamageFeedback : MonoBehaviour
             for (int j = 0; j < flashMats.Length; j++) flashMats[j] = _flashMaterial;
             _renderers[i].sharedMaterials = flashMats;
         }
-        await UniTask.Delay(_flashDurationMs);
-        for(int i = 0; i< _renderers.Length;i++)
+        bool isCancelled = await UniTask.Delay(_flashDurationMs, cancellationToken: token).SuppressCancellationThrow();
+        if(!isCancelled) RestoreOriginalMaterials();
+    }
+    private void RestoreOriginalMaterials()
+    {
+        for (int i = 0; i < _renderers.Length; i++)
         {
-            _renderers[i].sharedMaterials = _originalMaterials[i];   
+            if (_renderers[i] != null)
+            {
+                _renderers[i].sharedMaterials = _originalMaterials[i];
+            }
         }
         _isFlashing = false;
     }

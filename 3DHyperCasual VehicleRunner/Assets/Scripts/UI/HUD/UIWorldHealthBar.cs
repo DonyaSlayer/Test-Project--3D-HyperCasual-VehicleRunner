@@ -27,6 +27,7 @@ public class UIWorldHealthBar : MonoBehaviour
     public void UpdateHealth(int currentHP)
     {
         float targetFill = (float)currentHP / _maxHp;
+        _fillImage.DOKill();
         _fillImage.DOFillAmount(targetFill,_fillSpeed).SetEase(Ease.OutCubic);
         if(currentHP <= 0)
         {
@@ -46,5 +47,11 @@ public class UIWorldHealthBar : MonoBehaviour
         {
             transform.LookAt(transform.position + _mainCamera.transform.rotation * Vector3.forward, _mainCamera.transform.rotation * Vector3.up);
         }
+    }
+
+    private void OnDisable()
+    {
+        _fillImage?.DOKill();
+        _canvasGroup?.DOKill();
     }
 }

@@ -34,7 +34,8 @@ public class UICoinCounter : MonoBehaviour
     private void UpdateRunCoinsUI(int currentCoins)
     {
         _runCoinText.text = $"<sprite=0> : {currentCoins}";
-        _runCoinText.transform.DORewind();
+        _runCoinText.transform.DOKill();
+        _runCoinText.transform.localScale = Vector3.one;
         _runCoinText.transform.DOPunchScale(Vector3.one * 0.2f, 0.2f, 0, 0);
     }
     private void UpdateTotalCoinsUI (int totalCoins)
@@ -68,6 +69,9 @@ public class UICoinCounter : MonoBehaviour
 
     private void OnDestroy()
     {
+        _menuCoinCG?.DOKill();
+        _runCoinCG?.DOKill();
+        _runCoinText?.transform.DOKill();
         if (_coinManager != null)
         {
             _coinManager.OnRunCoinsChanged -= UpdateRunCoinsUI;

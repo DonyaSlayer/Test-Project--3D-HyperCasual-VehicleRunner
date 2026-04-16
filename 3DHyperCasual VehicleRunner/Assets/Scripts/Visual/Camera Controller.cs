@@ -2,6 +2,8 @@ using Unity.Cinemachine;
 using UnityEngine;
 using Zenject;
 using System.Collections;
+using Cysharp.Threading.Tasks;
+using UnityEngine.Rendering.Universal;
 
 public class CameraController : MonoBehaviour
 {
@@ -13,6 +15,7 @@ public class CameraController : MonoBehaviour
 
     private GameStateController _gameStateController;
     private CinemachineOrbitalFollow _orbitalFollow;
+    private bool _isOrbiting = false;
 
     [Inject]
 
@@ -32,12 +35,9 @@ public class CameraController : MonoBehaviour
     }
     private void Update()
     {
-        if (_gameStateController != null && _gameStateController.CurrentState == GameState.Win)
+        if (_isOrbiting && _orbitalFollow != null)
         {
-            if (_orbitalFollow != null)
-            {
-                _orbitalFollow.HorizontalAxis.Value += _orbitSpeed * Time.deltaTime;
-            }
+            _orbitalFollow.HorizontalAxis.Value += _orbitSpeed * Time.deltaTime;
         }
     }
     public void StartGameSequence()
@@ -45,12 +45,13 @@ public class CameraController : MonoBehaviour
         _garageCam.Priority = 5;
         _followCam.Priority = 10;
         _orbitCam.Priority = 5;
-        StartCoroutine(WaitAndStartMovement());
+        _isOrbiting = false;
+        WaitAndStartMovementAsync().Forget();
     }
 
-    private IEnumerator WaitAndStartMovement()
+    private async UniTaskVoid WaitAndStartMovementAsync()
     {
-        yield return new WaitForSeconds(_transitionTime);
+        await UniTask.Delay(System.TimeSpan.FromSeconds(_transitionTime), cancellationToken: this.GetCancellationTokenOnDestroy());
         _gameStateController.ChangeState(GameState.Playing);
     }
 
@@ -61,7 +62,6 @@ public class CameraController : MonoBehaviour
             case GameState.Menu:
                 ResetCamera(); break;
             case GameState.Win:
-                ActivateOrbitCam(); break;
             case GameState.Lose:
                 ActivateOrbitCam(); break;
         }
@@ -72,13 +72,14 @@ public class CameraController : MonoBehaviour
         _orbitCam.Priority = 10;
         _garageCam.Priority = 5;
         _followCam.Priority = 5;
+        _isOrbiting = true;
     }
     private void ResetCamera()
     {
-
         _garageCam.Priority = 10;
         _followCam.Priority = 5;
         _orbitCam.Priority = 5;
+        _isOrbiting = false;
     }
     private void OnDestroy()
     {
